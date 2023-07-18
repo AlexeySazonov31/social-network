@@ -17,7 +17,8 @@ $routeProfileEdit = "^/profile/edit$";
 $routeProfileChangePass = "^/profile/change-pass$";
 $routeProfileDelete = "^/profile/delete$";
 
-// $routeCreateQuestion = "^/create-question$";
+$routeMessenger = "^/messenger$";
+$routeFriends = "^/friends$";
 // $routeShowSetQuestions = "^/questions$";
 // $routeShowQuestion = "^/questions/(?<idQuestion>[a-z0-9_-]+)/(?<slugQuestion>[a-z0-9_-]+)$";
 // $routeDeleteQuestion = "^/delete/questions/(?<idQuestion>[a-z0-9_-]+)$";
@@ -49,17 +50,15 @@ if( preg_match( "#$routeHome#", $uri ) ){
     $pageName = "profile";
 } 
 
-// elseif (preg_match("#$routeCreateQuestion#", $uri )){
-//     $page = include "view/questions/createQuestion.php";
-// } elseif (preg_match("#$routeShowSetQuestions#", $uri )){
-//     $page = include "view/questions/questions.php";
-// } elseif (preg_match("#$routeShowQuestion#", $uri, $params )){
-//     $page = include "view/questions/showQuestion.php";
-// } elseif (preg_match("#$routeDeleteQuestion#", $uri, $params )){
-//     $page = include "view/questions/deleteQuestion.php";
-// } elseif (preg_match("#$routeDeleteAnswer#", $uri, $params )){
-//     $page = include "view/questions/deleteAnswer.php";
-// } 
+elseif (preg_match("#$routeMessenger#", $uri) ){
+    $page = include "view/messenger/messenger.php";
+    $pageName = "messenger";
+}
+
+elseif (preg_match("#$routeFriends#", $uri) ){
+    $page = include "view/friends/friends.php";
+    $pageName = "friends";
+}
 
 elseif (preg_match("#$routeAdminPanel#", $uri )){
     $page = include "view/admin/admin.php";

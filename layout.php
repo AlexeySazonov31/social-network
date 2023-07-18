@@ -60,6 +60,9 @@
                 <a class="nav-link <?= $pageName === "admin-panel" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/admin-panel">Admin Panel</a>
             <?php endif; ?>
             <?php if (!empty($_SESSION["auth"])) : ?>
+                <a class="nav-link <?= $pageName === "messenger" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/messenger">Messenger</a>
+                <a class="nav-link <?= $pageName === "friends" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/friends">Friends</a>
+
                 <a class="nav-link <?= $pageName === "profile" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/profile/<?= $_SESSION["login"] ?>">Account</a>
                 <a class="nav-link text-danger px-2 mx-2" href="/logout">Logout</a>
             <?php else : ?>
