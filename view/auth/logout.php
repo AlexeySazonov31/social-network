@@ -3,7 +3,6 @@ if( !empty($_SESSION['auth']) ){
     unset($_SESSION["auth"]);
     unset($_SESSION["status"]);
     unset($_SESSION["login"]);
-    unset($_SESSION["ban"]);
     $_SESSION["flash"][] = "You have successfully logged out of your account!";
     header("Location: /");
     die();

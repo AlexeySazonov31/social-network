@@ -39,6 +39,12 @@
             transform: translateX(0);
         }
     }
+    .avatar {
+        border-radius: 5%;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
 
 </style>
 
@@ -51,11 +57,11 @@
         </div>
         <div class="d-inline-flex mx-5">
             <?php if (!empty($_SESSION["auth"]) and $_SESSION["status"] === "admin") : ?>
-                <a class="btn btn-secondary my-2" href="/admin-panel">Admin Panel</a>
+                <a class="nav-link <?= $pageName === "admin-panel" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/admin-panel">Admin Panel</a>
             <?php endif; ?>
             <?php if (!empty($_SESSION["auth"])) : ?>
-                <a class="btn btn-success m-2" href="/profile/<?= $_SESSION["login"] ?>">Account - <?= $_SESSION["login"] ?></a>
-                <a class="btn btn-danger my-2" href="/logout">Logout</a>
+                <a class="nav-link <?= $pageName === "profile" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/profile/<?= $_SESSION["login"] ?>">Account</a>
+                <a class="nav-link text-danger px-2 mx-2" href="/logout">Logout</a>
             <?php else : ?>
                 <a class="nav-link <?= $pageName === "signup" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/signup">sign up</a>
                 <a class="nav-link <?= $pageName === "login" ? "text-warning" : "text-light" ?> px-2 mx-2" href="/login">login</a>

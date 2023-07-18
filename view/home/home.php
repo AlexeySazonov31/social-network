@@ -3,7 +3,7 @@
 if( empty($_SESSION["auth"])  ){
     $content = 'Please <a href="/signup">Sign Up</a> or <a href="/login">Login</a> to view Questions!';
 } else {
-    $content = '<a href="/questions">questions page</a>';
+    $content = 'Home Page';
 }
 
 return [

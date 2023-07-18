@@ -1,9 +1,9 @@
+<img id="output" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" class="mb-5 avatar" alt="avatar">
 <form action="" method="POST" enctype="multipart/form-data">
     <!-- avatar -->
-    <img class="w-25 mb-5" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="profile icon" />
     <div class="mb-3">
-        <label for="InputName" class="form-label">Avatar</label>
-        <input type="file" class="form-control" name="file" id="customFile" required />
+        <label for="InputFile" class="form-label">Avatar</label>
+        <input class="form-control" accept="image/*" id="imgInp" type="file" name="avatar" onchange="loadFile(event)" required />
         <div class="form-text">Please select image.</div>
     </div>
     <!-- name -->
@@ -11,18 +11,6 @@
         <label for="InputName" class="form-label">Your Name</label>
         <input class="form-control" type="text" name="name" placeholder="name" minlength="2" maxlength="10" pattern="[A-Za-z]+" value="<?= $_POST["name"] ?? "" ?>" required />
         <div class="form-text">Please enter your name.</div>
-    </div>
-    <!-- surname -->
-    <div class="mb-3">
-    <label for="InputSurname" class="form-label">Your Surname</label>
-    <input class="form-control" type="text" name="surname" placeholder="surname" minlength="2" maxlength="10" pattern="[A-Za-z]+" value="<?= $_POST["surname"] ?? "" ?>" required />
-    <div class="form-text">Please enter your surname.</div>
-    </div>
-    <!-- birthday -->
-    <div class="mb-3">
-    <label for="InputBirthday" class="form-label">Your Birthday</label>
-    <input class="form-control" type="date" name="bd" placeholder="birthday" value="<?= $_POST["bd"] ?? "" ?>" required />
-    <div class="form-text">Please enter your birthday.</div>
     </div>
     <!-- email -->
     <div class="mb-3">
@@ -50,3 +38,17 @@
     </div>
     <input class="btn btn-primary" type="submit" name="submit" />
 </form>
+
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    if( event.target.files[0] ){
+        output.src = URL.createObjectURL(event.target.files[0]);
+    } else {
+        output.src = "https://cdn-icons-png.flaticon.com/512/1144/1144709.png";
+    }
+    output.onload = function() {
+      URL.revokeObjectURL(output.src)
+    }
+  };
+</script>

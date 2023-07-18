@@ -17,11 +17,11 @@ $routeProfileEdit = "^/profile/edit$";
 $routeProfileChangePass = "^/profile/change-pass$";
 $routeProfileDelete = "^/profile/delete$";
 
-$routeCreateQuestion = "^/create-question$";
-$routeShowSetQuestions = "^/questions$";
-$routeShowQuestion = "^/questions/(?<idQuestion>[a-z0-9_-]+)/(?<slugQuestion>[a-z0-9_-]+)$";
-$routeDeleteQuestion = "^/delete/questions/(?<idQuestion>[a-z0-9_-]+)$";
-$routeDeleteAnswer = "^/delete/answers/(?<idAnswer>[a-z0-9_-]+)$";
+// $routeCreateQuestion = "^/create-question$";
+// $routeShowSetQuestions = "^/questions$";
+// $routeShowQuestion = "^/questions/(?<idQuestion>[a-z0-9_-]+)/(?<slugQuestion>[a-z0-9_-]+)$";
+// $routeDeleteQuestion = "^/delete/questions/(?<idQuestion>[a-z0-9_-]+)$";
+// $routeDeleteAnswer = "^/delete/answers/(?<idAnswer>[a-z0-9_-]+)$";
 
 $routeAdminPanel = "^/admin-panel$";
 $routeAdminPanelDelete = "^/admin-panel/delete/(?<deleteLogin>[a-z0-9_-]+)$";
@@ -38,27 +38,32 @@ if( preg_match( "#$routeHome#", $uri ) ){
     $pageName = "signup";
 } elseif (preg_match("#$routeLogout#", $uri )){
     $page = include "view/auth/logout.php";
-} elseif (preg_match("#$routeProfile#", $uri, $params )){
-    $page = include "view/profile/profile.php";
-    $pageName = "profile";
 } elseif (preg_match("#$routeProfileEdit#", $uri )){
     $page = include "view/profile/profileEdit.php";
 } elseif (preg_match("#$routeProfileChangePass#", $uri )){
     $page = include "view/profile/changePassword.php";
 } elseif (preg_match("#$routeProfileDelete#", $uri )){
     $page = include "view/profile/delete.php";
-} elseif (preg_match("#$routeCreateQuestion#", $uri )){
-    $page = include "view/questions/createQuestion.php";
-} elseif (preg_match("#$routeShowSetQuestions#", $uri )){
-    $page = include "view/questions/questions.php";
-} elseif (preg_match("#$routeShowQuestion#", $uri, $params )){
-    $page = include "view/questions/showQuestion.php";
-} elseif (preg_match("#$routeDeleteQuestion#", $uri, $params )){
-    $page = include "view/questions/deleteQuestion.php";
-} elseif (preg_match("#$routeDeleteAnswer#", $uri, $params )){
-    $page = include "view/questions/deleteAnswer.php";
-} elseif (preg_match("#$routeAdminPanel#", $uri )){
+} elseif (preg_match("#$routeProfile#", $uri, $params )){
+    $page = include "view/profile/profile.php";
+    $pageName = "profile";
+} 
+
+// elseif (preg_match("#$routeCreateQuestion#", $uri )){
+//     $page = include "view/questions/createQuestion.php";
+// } elseif (preg_match("#$routeShowSetQuestions#", $uri )){
+//     $page = include "view/questions/questions.php";
+// } elseif (preg_match("#$routeShowQuestion#", $uri, $params )){
+//     $page = include "view/questions/showQuestion.php";
+// } elseif (preg_match("#$routeDeleteQuestion#", $uri, $params )){
+//     $page = include "view/questions/deleteQuestion.php";
+// } elseif (preg_match("#$routeDeleteAnswer#", $uri, $params )){
+//     $page = include "view/questions/deleteAnswer.php";
+// } 
+
+elseif (preg_match("#$routeAdminPanel#", $uri )){
     $page = include "view/admin/admin.php";
+    $pageName = "admin-panel";
 } elseif (preg_match("#$routeAdminPanelDelete#", $uri, $params )){
     $page = include "view/admin/admin-delete.php";
 } elseif (preg_match("#$routeAdminPanelChange#", $uri, $params )){

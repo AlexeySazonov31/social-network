@@ -11,7 +11,7 @@ $changeLogin = $params["changeLogin"];
 $queryGetStatusId = "SELECT status_id FROM users WHERE login='$changeLogin'";
 $statusId = mysqli_fetch_assoc(mysqli_query($link, $queryGetStatusId))["status_id"];
 
-$newStatusId = ( $statusId === "1" ? "2" : ($statusId === "2" ? "3" : "1") );
+$newStatusId = ( $statusId === "1" ? "2" : "1" );
 
 $queryUpdateStatusId = "UPDATE users SET status_id='$newStatusId' WHERE login='$changeLogin'";
 mysqli_query($link, $queryUpdateStatusId);

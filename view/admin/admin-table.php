@@ -8,7 +8,6 @@
         <th>Created</th>
         <th>Status</th>
         <th>Change</th>
-        <th>Ban</th>
         <th>Del</th>
         </tr>
     </thead>
@@ -20,9 +19,8 @@
         <td><?= $user["bd"] ?></td>
         <td><?= $user["email"] ?></td>
         <td><?= $user["dateCreated"] ?></td>
-        <td class="<?= $user["status"] === "admin" ? "text-danger" : ($user["status"] === "moderator" ? "text-danger-emphasis" : "text-secondary") ?>"><?= $user["status"] ?></td>
+        <td class="<?= $user["status"] === "admin" ? "text-danger" : "text-secondary" ?>"><?= $user["status"] ?></td>
         <td><a class="text-warning" href="/admin-panel/change-status/<?= $user["login"] ?>">ChangeS</a></td>
-        <td><?= $user["Ban Time"] ?></td>
         <td><a class="text-danger" href="/admin-panel/delete/<?= $user["login"] ?>">Del</a></td>
         </tr>
     <?php endforeach; ?>

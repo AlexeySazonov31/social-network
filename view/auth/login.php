@@ -25,7 +25,6 @@ if (empty($_POST["submit"])) {
             $_SESSION["auth"] = true;
             $_SESSION["login"] = $user["login"];
             $_SESSION["status"] = $user["status"];
-            $_SESSION["ban"] = strtotime($user["ban_time"]) <= time() ? null : "ban";
             $_SESSION["flash"][] = "You have successfully logged in!";
             header("Location: /");
             die();
