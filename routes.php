@@ -16,6 +16,7 @@ $routeProfile = "^/profile/(?<login>[a-z0-9_-]+)$";
 $routeProfileEdit = "^/profile/edit$";
 $routeProfileChangePass = "^/profile/change-pass$";
 $routeProfileDelete = "^/profile/delete$";
+$routeProfilePostDelete = "^/profile/post-delete/(?<idPost>[0-9]+)$";
 
 $routeMessenger = "^/messenger$";
 $routeFriends = "^/friends$";
@@ -45,6 +46,8 @@ if( preg_match( "#$routeHome#", $uri ) ){
     $page = include "view/profile/changePassword.php";
 } elseif (preg_match("#$routeProfileDelete#", $uri )){
     $page = include "view/profile/delete.php";
+} elseif (preg_match("#$routeProfilePostDelete#", $uri, $params )){
+    $page = include "view/profile/postDelete.php";
 } elseif (preg_match("#$routeProfile#", $uri, $params )){
     $page = include "view/profile/profile.php";
     $pageName = "profile";

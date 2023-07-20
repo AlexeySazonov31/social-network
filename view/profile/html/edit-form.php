@@ -33,7 +33,7 @@
     if( event.target.files[0] ){
         output.src = URL.createObjectURL(event.target.files[0]);
     } else {
-        output.src = "../../../uploads/<?= $data["avatar_name"] ?>";
+        output.src = "../../../img/avatars/<?= $data["avatar_name"] ?>";
     }
     output.onload = function() {
       URL.revokeObjectURL(output.src)

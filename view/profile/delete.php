@@ -29,7 +29,7 @@ if ( !empty($_POST["submit"]) and !empty($_POST["password"])) {
 }
 
 ob_start();
-include "forms/delete-form.php";
+include "html/delete-form.php";
 $content = ob_get_clean();
 
 return [

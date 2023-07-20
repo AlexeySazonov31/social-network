@@ -41,7 +41,7 @@ $login = $_SESSION["login"];
     }
 
     ob_start();
-    include "forms/change-pass-form.php";
+    include "html/change-pass-form.php";
     $content = ob_get_clean();
 
     return [

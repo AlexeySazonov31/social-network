@@ -26,7 +26,7 @@ if (empty($_POST["submit"])) {
     $_SESSION["flash"][] = "Password length must be > 6 and < 12!";
 } else {
 
-$targetDir = "uploads/";
+$targetDir = "img/avatars/";
 $fileName = basename($_FILES["avatar"]["name"]);
 $targetFilePath = $targetDir . $fileName;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
@@ -66,7 +66,7 @@ $allowTypes = array('jpg','png','jpeg','gif','pdf');
 }
 
 ob_start();
-include "forms/signup-form.php";
+include "html/signup-form.php";
 $content = ob_get_clean();
 
 return [

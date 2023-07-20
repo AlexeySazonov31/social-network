@@ -15,7 +15,7 @@ if (!empty($_POST["submit"])) {
     $email = $_POST["email"];
 
     if (!empty($_FILES["avatar"]["name"])) {
-        $targetDir = "uploads/";
+        $targetDir = "img/avatars/";
         $fileName = basename($_FILES["avatar"]["name"]);
         $targetFilePath = $targetDir . $fileName;
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -43,12 +43,12 @@ $res = mysqli_query($link, $query) or die(mysqli_error($link));
 $data = mysqli_fetch_assoc($res);
 
 if ($data["avatar_name"]) {
-    $content = '<img class="mb-5 avatar" id="avatar" src="../../uploads/' . $data["avatar_name"] . '" alt="profile icon" />';
+    $content = '<img class="mb-5 avatar" id="avatar" src="../../img/avatars/' . $data["avatar_name"] . '" alt="profile icon" />';
 } else {
     $content = '<img class="mb-5 avatar" id="avatar" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="profile icon" />';
 }
 ob_start();
-include "forms/edit-form.php";
+include "html/edit-form.php";
 $formEdit = ob_get_clean();
 
 $content .= $formEdit;
