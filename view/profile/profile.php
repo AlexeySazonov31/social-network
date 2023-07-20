@@ -1,3 +1,30 @@
+<style>
+    .infoProfile {
+        position: sticky;
+        top: 80px;
+        height: fit-content;
+    }
+
+    @media (max-width: 576px) {
+        .profilePrimContainer {
+            flex-direction: column;
+        }
+
+        .infoProfile {
+            position: static;
+            width: 100% !important;
+            margin-bottom: 50px;
+        }
+
+        .postsProfile {
+            width: 100% !important;
+        }
+
+        .create-post-h {
+            position: static!important;
+        }
+    }
+</style>
 <?php
 
 if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
@@ -6,19 +33,20 @@ if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
     die();
 }
 
-$loginProfile = $params["login"];
+$loginProfileView = $params["login"];
+$idProfileView = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$loginProfileView'")))["id"];
 
-$login_user = $_SESSION["login"];
-$id_user = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user'")))["id"];
+$login_user_own = $_SESSION["login"];
+$id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user_own'")))["id"];
 
 $own = $params["login"] === $_SESSION["login"] ? true : false;
 
-$query = "SELECT name, surname, login, email, avatar_name FROM users WHERE login='$loginProfile'";
+$query = "SELECT name, surname, login, email, avatar_name FROM users WHERE login='$loginProfileView'";
 $res = mysqli_query($link, $query) or die(mysqli_error($link));
 $data = mysqli_fetch_assoc($res);
 
 
-$content = '<div class="d-flex"><div style="width: 45%;">';
+$content = '<div class="d-flex profilePrimContainer"><div class="infoProfile" style="width: 45%;">';
 
 if ($data["avatar_name"]) {
     $content .= '<img class="mb-5 avatar" src="../../img/avatars/' . $data["avatar_name"] . '" alt="profile icon" />';
@@ -40,22 +68,16 @@ if ($own) {
     $content .= $buttonsOwn;
 }
 
-$content .= "</div><div style='width: 55%;'>";
+$content .= "</div><div class='postsProfile' style='width: 55%;'>";
 
 if (empty($_POST["submit"])) {
 } elseif (empty($_POST["content-post"])) {
     $_SESSION["flash"][] = "Please write content post to public!";
 } else {
-    $id_creator = $id_user;
-    if( !$own ){
-        $login_creator = $_SESSION["login"];
-        $id_creator = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_creator'")))["id"];
-    }
-
     if (empty($_FILES["post"]["name"])) {
         $contentPost = $_POST["content-post"];
 
-        $insertPostQuery = "INSERT INTO posts SET user_id='$id_user', creator_user_id='$id_creator', content='$contentPost'";
+        $insertPostQuery = "INSERT INTO posts SET user_id='$idProfileView', creator_user_id='$id_user_own', content='$contentPost'";
         mysqli_query($link, $insertPostQuery) or die(mysqli_error($link));
         $_SESSION["flash"][] = "Post successful published!";
         header("Refresh:0");
@@ -75,12 +97,11 @@ if (empty($_POST["submit"])) {
 
             $contentPost = $_POST["content-post"];
 
-            $insertPostQuery = "INSERT INTO posts SET img_name='$fileName', user_id='$id_user', creator_user_id='$id_creator', content='$contentPost'";
+            $insertPostQuery = "INSERT INTO posts SET img_name='$fileName', user_id='$idProfileView', creator_user_id='$id_user_own', content='$contentPost'";
             mysqli_query($link, $insertPostQuery) or die(mysqli_error($link));
             $_SESSION["flash"][] = "Post successful published!";
             header("Refresh:0");
             die();
-
         }
     }
 }
@@ -93,13 +114,13 @@ $content .= $createPostForm;
 
 // posts list
 
-$queryGetPosts = "SELECT posts.*, users.login FROM posts LEFT JOIN users ON posts.user_id=users.id WHERE users.login='$loginProfile' ORDER BY id DESC";
+$queryGetPosts = "SELECT posts.* FROM posts LEFT JOIN users ON posts.user_id=users.id WHERE users.login='$loginProfileView' ORDER BY id DESC";
 $resPosts = mysqli_query($link, $queryGetPosts) or die(mysqli_error($link));
 for ($posts = []; $post = mysqli_fetch_assoc($resPosts); $posts[] = $post);
 if (!empty($posts)) {
     $amountPost = count($posts);
     $content .= "<h3>$amountPost Posts</h3>";
-    foreach( $posts as $post ){
+    foreach ($posts as $post) {
         ob_start();
         include "html/post.php";
         $post = ob_get_clean();

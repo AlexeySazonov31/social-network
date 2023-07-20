@@ -1,18 +1,25 @@
 <style>
     #block-add-image {
-        display: none;
+        height: 0;
+        transition: height 0.2s;
+        overflow: hidden;
     }
 
     #block-add-image.active {
-        display: block;
+        height: 310px;
+        transition: height 0.2s;
     }
     .post-image {
         width: 100%;
     }
+    .create-post-h {
+        position: absolute;
+        top: 150px;
+    }
 </style>
 
 <form action="" method="POST" enctype="multipart/form-data">
-    <h3>Create Post</h3>
+    <h3 class="create-post-h">Create Post</h3>
     <!-- button add image -->
     <button type="button" id="btn-image" class="btn btn-primary mb-2 w-100">Image Add/Remove</button>
     <div class="mb-3 w-100" id="block-add-image">
