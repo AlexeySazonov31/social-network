@@ -1,7 +1,7 @@
 <?php 
 
 if( empty($_SESSION["auth"]) or $_SESSION["status"] !== "admin" ){
-    $_SESSION["flash"][] = "You don't have access to this page!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "You don't have access to this page!"];
     header("Location: /");
     die();
 }
@@ -16,7 +16,7 @@ $newStatusId = ( $statusId === "1" ? "2" : "1" );
 $queryUpdateStatusId = "UPDATE users SET status_id='$newStatusId' WHERE login='$changeLogin'";
 mysqli_query($link, $queryUpdateStatusId);
 
-$_SESSION["flash"][] = "The user-status has been successfully changed!";
+$_SESSION["flash"][] = ["status" => true, "text" => "The user-status has been successfully changed!"];
 header("Location: /admin-panel");
 die();
 

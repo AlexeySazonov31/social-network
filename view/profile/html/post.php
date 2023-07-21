@@ -1,7 +1,14 @@
 <?php
-$creatorLoginQuery = "SELECT users.login, users.id FROM users LEFT JOIN posts ON posts.creator_user_id=users.id WHERE posts.id='$post[id]'";
-$creatorLogin = mysqli_fetch_assoc(mysqli_query($link, $creatorLoginQuery))["login"];
-$creatorId = mysqli_fetch_assoc(mysqli_query($link, $creatorLoginQuery))["id"];
+$creatorQuery = "SELECT users.login, users.id FROM users LEFT JOIN posts ON posts.creator_user_id=users.id WHERE posts.id='$post[id]'";
+$resCreator = mysqli_query($link, $creatorQuery);
+$creator = mysqli_fetch_assoc($resCreator);
+if (!empty($creator)) {
+    $creatorLogin = $creator["login"];
+    $creatorId = $creator["id"];
+} else {
+    $creatorLogin = "deleted user";
+    $creatorId = null;
+}
 ?>
 <div class="card mb-4">
     <?php if (isset($post["img_name"])) : ?>
@@ -9,7 +16,7 @@ $creatorId = mysqli_fetch_assoc(mysqli_query($link, $creatorLoginQuery))["id"];
     <?php endif; ?>
     <div class="card-body">
         <p class="card-text">
-            <?= $post["content"] ?>
+            <?= nl2br($post["content"]) ?>
         </p>
     </div>
 
@@ -18,7 +25,7 @@ $creatorId = mysqli_fetch_assoc(mysqli_query($link, $creatorLoginQuery))["id"];
             <small class="text-body-secondary">
                 <?php if ($post["creator_user_id"] === $id_user_own) : ?>
                     Your post
-                <?php elseif ($post["creator_user_id"] === $idProfileView) : ?>
+                <?php elseif ($post["creator_user_id"] === $idProfileView or $creatorId === null) : ?>
                     <?= $creatorLogin ?>
                 <?php else : ?>
                     <a class="link-primary" href="/profile/<?= $creatorLogin ?>"><?= $creatorLogin ?></a>
@@ -27,7 +34,7 @@ $creatorId = mysqli_fetch_assoc(mysqli_query($link, $creatorLoginQuery))["id"];
                 <?= date_format(date_create($post["creation_time"]), "Y.m.d H:i") ?>
             </small>
         </p>
-        <?php if ($creatorId === $post["creator_user_id"] or $_SESSION["status"] === "admin") : ?>
+        <?php if ($loginProfileView === $_SESSION["login"] or $creatorId === $id_user_own or $_SESSION["status"] === "admin") : ?>
             <a href="/profile/post-delete/<?= $post["id"] ?>" class="card-link link-danger">delete</a>
         <?php endif; ?>
     </div>

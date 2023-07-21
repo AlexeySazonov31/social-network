@@ -29,46 +29,40 @@ $routeAdminPanel = "^/admin-panel$";
 $routeAdminPanelDelete = "^/admin-panel/delete/(?<deleteLogin>[a-z0-9_-]+)$";
 $routeAdminPanelChange = "^/admin-panel/change-status/(?<changeLogin>[a-z0-9_-]+)$";
 
-if( preg_match( "#$routeHome#", $uri ) ){
+if (preg_match("#$routeHome#", $uri)) {
     $page = include "view/home/home.php";
     $pageName = "home";
-} elseif (preg_match("#$routeLogin#", $uri )){
+} elseif (preg_match("#$routeLogin#", $uri)) {
     $page = include "view/auth/login.php";
     $pageName = "login";
-} elseif (preg_match("#$routeSignUp#", $uri )){
+} elseif (preg_match("#$routeSignUp#", $uri)) {
     $page = include "view/auth/signup.php";
     $pageName = "signup";
-} elseif (preg_match("#$routeLogout#", $uri )){
+} elseif (preg_match("#$routeLogout#", $uri)) {
     $page = include "view/auth/logout.php";
-} elseif (preg_match("#$routeProfileEdit#", $uri )){
+} elseif (preg_match("#$routeProfileEdit#", $uri)) {
     $page = include "view/profile/profileEdit.php";
-} elseif (preg_match("#$routeProfileChangePass#", $uri )){
+} elseif (preg_match("#$routeProfileChangePass#", $uri)) {
     $page = include "view/profile/changePassword.php";
-} elseif (preg_match("#$routeProfileDelete#", $uri )){
+} elseif (preg_match("#$routeProfileDelete#", $uri)) {
     $page = include "view/profile/delete.php";
-} elseif (preg_match("#$routeProfilePostDelete#", $uri, $params )){
+} elseif (preg_match("#$routeProfilePostDelete#", $uri, $params)) {
     $page = include "view/profile/postDelete.php";
-} elseif (preg_match("#$routeProfile#", $uri, $params )){
+} elseif (preg_match("#$routeProfile#", $uri, $params)) {
     $page = include "view/profile/profile.php";
     $pageName = "profile";
-} 
-
-elseif (preg_match("#$routeMessenger#", $uri) ){
+} elseif (preg_match("#$routeMessenger#", $uri)) {
     $page = include "view/messenger/messenger.php";
     $pageName = "messenger";
-}
-
-elseif (preg_match("#$routeFriends#", $uri) ){
+} elseif (preg_match("#$routeFriends#", $uri)) {
     $page = include "view/friends/friends.php";
     $pageName = "friends";
-}
-
-elseif (preg_match("#$routeAdminPanel#", $uri )){
+} elseif (preg_match("#$routeAdminPanel#", $uri)) {
     $page = include "view/admin/admin.php";
     $pageName = "admin-panel";
-} elseif (preg_match("#$routeAdminPanelDelete#", $uri, $params )){
+} elseif (preg_match("#$routeAdminPanelDelete#", $uri, $params)) {
     $page = include "view/admin/admin-delete.php";
-} elseif (preg_match("#$routeAdminPanelChange#", $uri, $params )){
+} elseif (preg_match("#$routeAdminPanelChange#", $uri, $params)) {
     $page = include "view/admin/admin-change.php";
 } else {
     $page = [
@@ -79,9 +73,11 @@ elseif (preg_match("#$routeAdminPanel#", $uri )){
 }
 
 $flash = "";
-if( !empty($_SESSION["flash"]) ){
-    foreach( $_SESSION["flash"] as $message ){
-        $flash .= '<div class="alert alert-success mt-2 px-4" role="alert">' . $message . '</div>';
+if (!empty($_SESSION["flash"])) {
+    foreach ($_SESSION["flash"] as $message) {
+        $classStatusMessage = $message["status"] ? "alert-success" : "alert-danger";
+        $buttonClose = '<button type="button" style="margin-left: 20px;" class="btn-close"></button>';
+        $flash .= '<div id="flashMessage" class="alert ' . $classStatusMessage . ' mt-2 px-4" role="alert">' . $message["text"] . $buttonClose . '</div>';
     }
     unset($_SESSION["flash"]);
 }
@@ -97,3 +93,17 @@ $layout = str_replace("{{ contentTitle }}", $page["contentTitle"], $layout);
 
 echo $layout;
 ?>
+
+<!-- flash messages js -->
+<script>
+    const flashElements = document.querySelectorAll("#flashMessage");
+    if (flashElements.length > 0) {
+        document.addEventListener("click", (e) => {
+            if (e.target.id !== 'flashMessage') {
+                for (let elem of flashElements) {
+                    elem.classList.add("hideFlash");
+                }
+            }
+        })
+    }
+</script>

@@ -1,7 +1,7 @@
 <?php
 
 if( empty($_SESSION["auth"]) or $_SESSION["status"] !== "admin" ){
-    $_SESSION["flash"][] = "You don't have access to this page!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "You don't have access to this page!"];
     header("Location: /");
     die();
 }

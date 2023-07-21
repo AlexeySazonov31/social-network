@@ -1,8 +1,8 @@
 <?php
 
 if( !empty($_SESSION["auth"])  ){
-    $_SESSION["flash"][] = "You are already logged in to the system!";
-    header("Location: /questions");
+    $_SESSION["flash"][] = ["status" => true, "text" => "You are already logged in to the system!"];
+    header("Location: /profile");
     die();
 }
 
@@ -12,7 +12,7 @@ if (empty($_POST["submit"])) {
     empty($_POST["login"]) or
     empty($_POST["password"])
 ) {
-    $_SESSION["flash"][] = "Please enter login and password!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Please enter login and password!"];
 } else {
     $login = $_POST["login"];
     $searchLoginQuery = "SELECT users.*, statuses.status as status FROM users LEFT JOIN statuses ON users.status_id=statuses.id WHERE login='$login'";
@@ -25,14 +25,14 @@ if (empty($_POST["submit"])) {
             $_SESSION["auth"] = true;
             $_SESSION["login"] = $user["login"];
             $_SESSION["status"] = $user["status"];
-            $_SESSION["flash"][] = "You have successfully logged in!";
+            $_SESSION["flash"][] = ["status" => true, "text" => "You have successfully logged in!"];
             header("Location: /");
             die();
         } else {
-            $_SESSION["flash"][] = "Login or password entered incorrectly. Please try again!";
+            $_SESSION["flash"][] = ["status" => false, "text" => "Login or password entered incorrectly. Please try again!"];
         }
     } else {
-        $_SESSION["flash"][] = "Login or password entered incorrectly. Please try again!";
+        $_SESSION["flash"][] = ["status" => false, "text" => "Login or password entered incorrectly. Please try again!"];
     }
 }
 

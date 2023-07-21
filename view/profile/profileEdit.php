@@ -1,8 +1,8 @@
 <?php
 
 if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
-    $_SESSION["flash"][] = "First you need to log in!";
-    header("Location: /");
+    $_SESSION["flash"][] = ["status" => false, "text" => "First you need to log in!"];
+    header("Location: /login");
     die();
 }
 
@@ -22,9 +22,9 @@ if (!empty($_POST["submit"])) {
         $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
 
         if (!in_array($fileType, $allowTypes)) {
-            $_SESSION["flash"][] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+            $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload."];
         } elseif (!move_uploaded_file($_FILES["avatar"]["tmp_name"], $targetFilePath)) {
-            $_SESSION["flash"][] = "Sorry, there was an error uploading your file.";
+            $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, there was an error uploading your file."];
         } else {
             $queryUpdate = "UPDATE users SET name='$name', surname='$surname', email='$email', avatar_name='$fileName' WHERE login='$login'";
         }
@@ -32,7 +32,7 @@ if (!empty($_POST["submit"])) {
         $queryUpdate = "UPDATE users SET name='$name', surname='$surname', email='$email' WHERE login='$login'";
     }
     mysqli_query($link, $queryUpdate) or die($link);
-    $_SESSION["flash"][] = "You data successful updated!";
+    $_SESSION["flash"][] = ["status" => true, "text" => "You data successful updated!"];
     header("Location: /profile/$login");
     die();
 }

@@ -1,7 +1,7 @@
 <?php
 if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
-    $_SESSION["flash"][] = "First you need to log in!";
-    header("Location: /");
+    $_SESSION["flash"][] = ["status" => false, "text" => "First you need to log in!"];
+    header("Location: /login");
     die();
 }
 
@@ -18,14 +18,14 @@ if ( !empty($_POST["submit"]) and !empty($_POST["password"])) {
     if (password_verify($password, $hash)) {
         $query = "DELETE FROM users WHERE login='$login'";
         mysqli_query($link, $query) or die(mysqli_error($link));
-        $_SESSION["flash"][] = "Your account deleted successful!";
+        $_SESSION["flash"][] = ["status" => true, "text" => "Your account deleted successful!"];
         header("Location: /logout");
         die();
     } else {
-        $_SESSION["flash"][] = "The password was entered incorrectly!";
+        $_SESSION["flash"][] = ["status" => false, "text" => "The password was entered incorrectly!"];
     }
 } elseif ( !empty($_POST["submit"]) and empty($_POST["password"])) {
-    $_SESSION["flash"][] = "Please enter your password to delete account!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Please enter your password to delete account!"];
 }
 
 ob_start();

@@ -27,12 +27,12 @@
         z-index: 20;
 
         animation: alert 0.2s forwards;
-        transform: translateX(-150%);
+        transform: translateX(-500%);
     }
 
     @keyframes alert {
         0% {
-            transform: translateX(-150%);
+            transform: translateX(-500%);
         }
 
         100% {
@@ -44,6 +44,20 @@
         width: 200px;
         height: 200px;
         object-fit: cover;
+    }
+
+    .hideFlash {
+        animation: alertHide 0.2s forwards;
+    }
+    @keyframes alertHide {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            display: none;
+            transform: translateX(+500%);
+        }
     }
 
 </style>

@@ -1,8 +1,8 @@
 <?php
 
 if (!empty($_SESSION["auth"])) {
-    $_SESSION["flash"][] = "You are already logged in to the system!";
-    header("Location: /questions");
+    $_SESSION["flash"][] = ["status" => true, "text" => "You are already logged in to the system!"];
+    header("Location: /profile");
     die();
 }
 if (empty($_POST["submit"])) {
@@ -15,15 +15,15 @@ if (empty($_POST["submit"])) {
     empty($_POST["name"]) or
     empty($_FILES["avatar"]["name"])
 ) {
-    $_SESSION["flash"][] = "Please fill in all the input fields!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Please fill in all the input fields!"];
 } elseif( $_POST["confirm"] !== $_POST["password"] ) {
-    $_SESSION["flash"][] = "The password does not match the confirmation!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "The password does not match the confirmation!"];
 } elseif ( preg_match('/\w+/', $_POST["login"]) === 0 ) {
-    $_SESSION["flash"][] = "Login can contain only Latin letters and numbers!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Login can contain only Latin letters and numbers!"];
 } elseif ( !(strlen($_POST["login"]) >= 6) or !(strlen($_POST["login"]) <= 15) ) {
-    $_SESSION["flash"][] = "Login length must be > 4 and < 10!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Login length must be > 4 and < 10!"];
 } elseif ( !(strlen($_POST["password"]) >= 6) or !(strlen($_POST["password"]) <= 20) ) {
-    $_SESSION["flash"][] = "Password length must be > 6 and < 12!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Password length must be > 6 and < 12!"];
 } else {
 
 $targetDir = "img/avatars/";
@@ -33,9 +33,9 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 $allowTypes = array('jpg','png','jpeg','gif','pdf');
 
     if(!in_array($fileType, $allowTypes)){
-        $_SESSION["flash"][] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+        $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload."];
     } elseif (!move_uploaded_file($_FILES["avatar"]["tmp_name"], $targetFilePath)) {
-        $_SESSION["flash"][] = "Sorry, there was an error uploading your file.";
+        $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, there was an error uploading your file."];
     } else {
 
         $login = strtolower($_POST["login"]);
@@ -51,7 +51,8 @@ $allowTypes = array('jpg','png','jpeg','gif','pdf');
             $insertQuery = "INSERT INTO users SET login='$login', avatar_name='$fileName', password='$password', email='$email', name='$name', status_id='1'";
             mysqli_query($link, $insertQuery) or die( mysqli_error($link) );
         
-            $_SESSION["flash"][] = "Successful Registred!";
+            $_SESSION["flash"][] = ["status" => true, "text" => "Successful Registered!"];
+
             $_SESSION["auth"] = true;
             $_SESSION["login"] = $login;
             $_SESSION["status"] = "user";
@@ -60,7 +61,7 @@ $allowTypes = array('jpg','png','jpeg','gif','pdf');
             die();
     
         } else {
-            $_SESSION["flash"][] = "This login already exists! Use another.";
+            $_SESSION["flash"][] = ["status" => false, "text" => "This login already exists! Use another."];
         }
     }
 }

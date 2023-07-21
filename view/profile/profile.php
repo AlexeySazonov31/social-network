@@ -28,22 +28,30 @@
 <?php
 
 if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
-    $_SESSION["flash"][] = "First you need to log in!";
-    header("Location: /");
+    $_SESSION["flash"][] = ["status" => false, "text" => "First you need to log in!"];
+    header("Location: /login");
     die();
 }
 
 $loginProfileView = $params["login"];
-$idProfileView = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$loginProfileView'")))["id"];
-
-$login_user_own = $_SESSION["login"];
-$id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user_own'")))["id"];
-
-$own = $params["login"] === $_SESSION["login"] ? true : false;
 
 $query = "SELECT name, surname, login, email, avatar_name FROM users WHERE login='$loginProfileView'";
 $res = mysqli_query($link, $query) or die(mysqli_error($link));
 $data = mysqli_fetch_assoc($res);
+
+if(empty($data)){
+    $error = "<h3>User not found<h3>";
+    return [
+        "contentTitle" => "<span class='text-danger'>Error:</span>",
+        "title" => "Profile",
+        "content" => $error
+    ];
+}
+
+$idProfileView = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$loginProfileView'")))["id"];
+$login_user_own = $_SESSION["login"];
+$id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user_own'")))["id"];
+$own = $params["login"] === $_SESSION["login"] ? true : false;
 
 
 $content = '<div class="d-flex profilePrimContainer"><div class="infoProfile" style="width: 45%;">';
@@ -72,14 +80,14 @@ $content .= "</div><div class='postsProfile' style='width: 55%;'>";
 
 if (empty($_POST["submit"])) {
 } elseif (empty($_POST["content-post"])) {
-    $_SESSION["flash"][] = "Please write content post to public!";
+    $_SESSION["flash"][] = ["status" => false, "text" => "Please write content post to public!"];
 } else {
     if (empty($_FILES["post"]["name"])) {
         $contentPost = $_POST["content-post"];
 
         $insertPostQuery = "INSERT INTO posts SET user_id='$idProfileView', creator_user_id='$id_user_own', content='$contentPost'";
         mysqli_query($link, $insertPostQuery) or die(mysqli_error($link));
-        $_SESSION["flash"][] = "Post successful published!";
+        $_SESSION["flash"][] = ["status" => true, "text" => "Post successful published!"];
         header("Refresh:0");
         die();
     } else {
@@ -90,16 +98,16 @@ if (empty($_POST["submit"])) {
         $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
 
         if (!in_array($fileType, $allowTypes)) {
-            $_SESSION["flash"][] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+            $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload."];
         } elseif (!move_uploaded_file($_FILES["post"]["tmp_name"], $targetFilePath)) {
-            $_SESSION["flash"][] = "Sorry, there was an error uploading your file.";
+            $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, there was an error uploading your file."];
         } else {
 
             $contentPost = $_POST["content-post"];
 
             $insertPostQuery = "INSERT INTO posts SET img_name='$fileName', user_id='$idProfileView', creator_user_id='$id_user_own', content='$contentPost'";
             mysqli_query($link, $insertPostQuery) or die(mysqli_error($link));
-            $_SESSION["flash"][] = "Post successful published!";
+            $_SESSION["flash"][] = ["status" => true, "text" => "Post successful published!"];
             header("Refresh:0");
             die();
         }
