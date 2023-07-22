@@ -1,3 +1,6 @@
+<?php 
+$curPageName = $_SERVER["REQUEST_URI"];
+?>
 <div>
     <div class="row">
         <div class="col-sm-4">

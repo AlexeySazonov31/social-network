@@ -20,10 +20,11 @@ $login_user_own = $_SESSION["login"];
 $id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user_own'")))["id"];
 
 
+$querySearchFriendship = "SELECT * from friends WHERE user_id_1='$idUser' OR user_id_2='$idUser'";
+$resSearchFriendship = mysqli_query($link, $querySearchFriendship) or die(mysqli_error($link));
+$searchFriendship = mysqli_fetch_assoc($resSearchFriendship);
+
 if ($action === "add") {
-    $querySearchFriendship = "SELECT * from friends WHERE user_id_1='$idUser' OR user_id_2='$idUser'";
-    $resSearchFriendship = mysqli_query($link, $querySearchFriendship) or die(mysqli_error($link));
-    $searchFriendship = mysqli_fetch_assoc($resSearchFriendship);
     if (!empty($searchFriendship)) {
         $_SESSION["flash"][] = ["status" => false, "text" => "This user your requested friend or friend!"];
         header("Location: /friends");

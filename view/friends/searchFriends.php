@@ -13,13 +13,12 @@ if( empty($probablyFriends) ){
     $content = "<p>Error search friends</p>";
 } else {
     foreach($probablyFriends as $fr){
+        $statusCard = "search";
         ob_start();
-        include "html/probablyFriend.php";
+        include "html/friendCard.php";
         $content .= ob_get_clean();
     }
 }
-
-$curPageName = $_SERVER["REQUEST_URI"];
 
 ob_start();
 include "html/layout.php";
