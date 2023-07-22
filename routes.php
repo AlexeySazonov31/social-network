@@ -19,7 +19,11 @@ $routeProfileDelete = "^/profile/delete$";
 $routeProfilePostDelete = "^/profile/post-delete/(?<idPost>[0-9]+)$";
 
 $routeMessenger = "^/messenger$";
+
 $routeFriends = "^/friends$";
+$routeSearchFriends = "^/friends/search$";
+$routeFriendsAction = "^/friends/(?<action>(add|confirm|delete))/(?<idUser>[0-9]+)$";
+
 // $routeShowSetQuestions = "^/questions$";
 // $routeShowQuestion = "^/questions/(?<idQuestion>[a-z0-9_-]+)/(?<slugQuestion>[a-z0-9_-]+)$";
 // $routeDeleteQuestion = "^/delete/questions/(?<idQuestion>[a-z0-9_-]+)$";
@@ -54,6 +58,10 @@ if (preg_match("#$routeHome#", $uri)) {
 } elseif (preg_match("#$routeMessenger#", $uri)) {
     $page = include "view/messenger/messenger.php";
     $pageName = "messenger";
+} elseif (preg_match("#$routeSearchFriends#", $uri)) {
+    $page = include "view/friends/searchFriends.php";
+} elseif (preg_match("#$routeFriendsAction#", $uri, $params)) {
+    $page = include "view/friends/actionFriends.php";
 } elseif (preg_match("#$routeFriends#", $uri)) {
     $page = include "view/friends/friends.php";
     $pageName = "friends";

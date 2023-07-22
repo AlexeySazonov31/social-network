@@ -54,7 +54,7 @@ $id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHE
 $own = $params["login"] === $_SESSION["login"] ? true : false;
 
 
-$content = '<div class="d-flex profilePrimContainer"><div class="infoProfile" style="width: 45%;">';
+$content = '<div class="d-flex profilePrimContainer"><div class="infoProfile" style="width: 33.3%;">';
 
 if ($data["avatar_name"]) {
     $content .= '<img class="mb-5 avatar" src="../../img/avatars/' . $data["avatar_name"] . '" alt="profile icon" />';
@@ -76,7 +76,7 @@ if ($own) {
     $content .= $buttonsOwn;
 }
 
-$content .= "</div><div class='postsProfile' style='width: 55%;'>";
+$content .= "</div><div class='postsProfile' style='width: 66.7%;'>";
 
 if (empty($_POST["submit"])) {
 } elseif (empty($_POST["content-post"])) {
