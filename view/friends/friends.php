@@ -33,10 +33,9 @@ $statusCard = "";
 foreach($friends as $friend){
     if($friend["status"]){
         if( $friend["user_id_1"] === $id_user_own ){
-            $id = $friend["user_id_2"];
+            $realFriends[] = $friend["user_id_2"];
         } else {
             $realFriends[] = $friend["user_id_1"];
-            $id = $friend["user_id_1"];
         }
     } elseif ( $friend["user_id_1"] === $id_user_own and $friend["user_id_2"] !== $id_user_own ){
         $requestFriends[] = $friend["user_id_2"];

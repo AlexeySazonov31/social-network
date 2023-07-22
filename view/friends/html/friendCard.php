@@ -18,7 +18,7 @@
         <div class="col-6">
             <div class="card-body">
                 <h5 class="card-title"><?= $fr["name"] ?> <?= $fr["surname"] ?? "" ?></h5>
-                <p class="card-text"><small class="text-body-secondary"><?= $fr["login"] ?></small></p>
+                <p class="card-text"><small class="text-body-secondary"><a href="/profile/<?= $fr["login"] ?>" class="link"><?= $fr["login"] ?></a></small></p>
             </div>
         </div>
         <div class="col-3 d-flex flex justify-content-center" style="height: 31px; padding-right: 15px;">
