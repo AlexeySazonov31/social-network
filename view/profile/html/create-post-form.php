@@ -6,7 +6,7 @@
     }
 
     #block-add-image.active {
-        height: 310px;
+        height: 365px;
         transition: height 0.2s;
     }
     .post-image {

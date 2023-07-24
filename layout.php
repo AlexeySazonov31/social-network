@@ -11,6 +11,9 @@
     main {
         min-height: 87vh;
     }
+    #primary-main {
+        background-color: #fff!important;
+    }
 
     .container {
         max-width: 900px;
@@ -62,7 +65,7 @@
 
 </style>
 
-<body class="bg-body-tertiary">
+<body class="bg-body-tertiary" style="background-color: #084298!important">
     <header class="container-fluid d-flex justify-content-between align-items-center py-3" style="background: #084298;">
         <div class="text-center mx-5">
             <a href="/" style="color: white; text-decoration: none;">
@@ -88,10 +91,12 @@
 
     <div class="container d-flex justify-content-center">{{ flash }}</div>
 
-    <main class="container py-5">
+    <div id="primary-main">
+    <main class="container py-5" id="container-main">
         <h1 class="mb-5">{{ contentTitle }}</h1>
         {{ content }}
     </main>
+    </div>
 
     <footer class="container-fluid p-3 text-center text-light" style="background: #084298;">Sazonov A. S. - For.um</footer>
 

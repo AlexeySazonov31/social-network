@@ -18,7 +18,9 @@ $routeProfileChangePass = "^/profile/change-pass$";
 $routeProfileDelete = "^/profile/delete$";
 $routeProfilePostDelete = "^/profile/post-delete/(?<idPost>[0-9]+)$";
 
-$routeMessenger = "^/messenger$";
+$routeMessengerList = "^/messenger$";
+$routeGetMessages = "^/messenger/get-messages$";
+$routeMessage = "^/messenger/(?<login>[a-z0-9_-]+)$";
 
 $routeFriends = "^/friends$";
 $routeSearchFriends = "^/friends/search$";
@@ -32,6 +34,8 @@ $routeFriendsAction = "^/friends/(?<action>(add|confirm|delete))/(?<idUser>[0-9]
 $routeAdminPanel = "^/admin-panel$";
 $routeAdminPanelDelete = "^/admin-panel/delete/(?<deleteLogin>[a-z0-9_-]+)$";
 $routeAdminPanelChange = "^/admin-panel/change-status/(?<changeLogin>[a-z0-9_-]+)$";
+
+$metaCharsetUTF8Confirmation = true;
 
 if (preg_match("#$routeHome#", $uri)) {
     $page = include "view/home/home.php";
@@ -55,7 +59,13 @@ if (preg_match("#$routeHome#", $uri)) {
 } elseif (preg_match("#$routeProfile#", $uri, $params)) {
     $page = include "view/profile/profile.php";
     $pageName = "profile";
-} elseif (preg_match("#$routeMessenger#", $uri)) {
+} elseif (preg_match("#$routeMessengerList#", $uri)) {
+    $page = include "view/messenger/dialogs.php";
+    $pageName = "messenger";
+} elseif (preg_match("#$routeGetMessages#", $uri)) {
+    $page = include "view/messenger/getMessages.php";
+    $metaCharsetUTF8Confirmation = false;
+} elseif (preg_match("#$routeMessage#", $uri, $params)) {
     $page = include "view/messenger/messenger.php";
     $pageName = "messenger";
 } elseif (preg_match("#$routeSearchFriends#", $uri)) {
@@ -78,6 +88,11 @@ if (preg_match("#$routeHome#", $uri)) {
         "title" => "Error",
         "content" => "Page not found"
     ];
+}
+if(!$metaCharsetUTF8Confirmation){
+    die();
+} else {
+    echo '<meta charset="utf-8">';
 }
 
 $flash = "";

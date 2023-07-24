@@ -54,13 +54,16 @@ function getProbableFriends($link){
     $arrIdUsersInFriendsList = array_unique($arrIdUsersInFriendsList);
 
     $strCond = "";
-    foreach($arrIdUsersInFriendsList as $idUser ){
-        $strCond .= "users.id<>$idUser AND ";
+    if(!empty($arrIdUsersInFriendsList)){
+        foreach($arrIdUsersInFriendsList as $idUser ){
+            $strCond .= "id<>$idUser AND ";
+        }
+        $strCond = substr($strCond,0,-5);
+    } else {
+        $strCond = "id<>$id_user_own";
     }
-    $strCond = substr($strCond,0,-5);
 
-    
-    $queryUsers = "SELECT * FROM users WHERE $strCond LIMIT 10";
+    $queryUsers = "SELECT * FROM users where $strCond limit 5";
     $resQueryUsers = mysqli_query($link, $queryUsers) or die(mysqli_error($link));
     for($users = []; $us = mysqli_fetch_assoc($resQueryUsers); $users[] = $us);
     return $users;
