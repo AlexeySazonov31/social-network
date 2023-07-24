@@ -21,7 +21,7 @@
         }
 
         .create-post-h {
-            position: static!important;
+            position: static !important;
         }
     }
 </style>
@@ -39,7 +39,7 @@ $query = "SELECT name, surname, login, email, avatar_name FROM users WHERE login
 $res = mysqli_query($link, $query) or die(mysqli_error($link));
 $data = mysqli_fetch_assoc($res);
 
-if(empty($data)){
+if (empty($data)) {
     $error = "<h3>User not found<h3>";
     return [
         "contentTitle" => "<span class='text-danger'>Error:</span>",
@@ -65,6 +65,43 @@ if ($data["avatar_name"]) {
 foreach ($data as $key => $value) {
     if ($value and $key !== "avatar_name") {
         $content .= "<h6 class='mt-4 fw-normal'><b>" . ucfirst($key) . ":</b> $value<h6>";
+    }
+}
+$queryCountFriends = "SELECT count(*) as count 
+from friends 
+where
+user_id_1='$id_user_own'
+or
+user_id_2='$id_user_own'";
+$resCountFriends = mysqli_query($link, $queryCountFriends) or die(mysqli_error($link));
+$countFriends = mysqli_fetch_assoc($resCountFriends);
+$content .= "<h6 class='mt-4 fw-normal'><b>Friends: </b>$countFriends[count]<h6>";
+
+if (!$own) {
+    $querySearchFriendShip = "SELECT * 
+    from friends 
+    WHERE 
+    (user_id_1='$id_user_own' and user_id_2='$idProfileView')
+    or
+    (user_id_2='$id_user_own' and user_id_1='$idProfileView')";
+    $resFriendship = mysqli_query($link, $querySearchFriendShip) or die(mysqli_error($link));
+    $friendship = mysqli_fetch_assoc($resFriendship);
+
+    $content .= "<br>";
+    if (empty($friendship)) {
+        $content .= "<a href='/friends/add/$idProfileView'>ADD FRIEND</a>";
+    } elseif ($friendship["status"]) {
+        $content .= "<p class='text-success'>your friend</p>";
+        // message
+        $content .= "<a href='/messenger/$loginProfileView' class='text-primary'>messenger</a><br><br>";
+        // -------
+        $content .= "<a href='/friends/delete/$idProfileView' class='text-danger'>delete friend</a>";
+    } elseif ($friendship["user_id_1"] === $id_user_own) {
+        $content .= "<p class='text-success'>!friendship requested!</p><br>";
+        $content .= "<a href='/friends/delete/$idProfileView' class='text-danger'>delete request</a>";
+    } else {
+        $content .= "<a href='/friends/confirm/$idProfileView' class='text-success'>confirm friendship</a><br><br>";
+        $content .= "<a href='/friends/delete/$idProfileView' class='text-danger'>refuse</a>";
     }
 }
 
