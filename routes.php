@@ -20,6 +20,7 @@ $routeProfilePostDelete = "^/profile/post-delete/(?<idPost>[0-9]+)$";
 
 $routeMessengerList = "^/messenger$";
 $routeGetMessages = "^/messenger/get-messages$";
+$routeSendMessage = "^/messenger/send-message$";
 $routeMessage = "^/messenger/(?<login>[a-z0-9_-]+)$";
 
 $routeFriends = "^/friends$";
@@ -64,6 +65,9 @@ if (preg_match("#$routeHome#", $uri)) {
     $pageName = "messenger";
 } elseif (preg_match("#$routeGetMessages#", $uri)) {
     $page = include "view/messenger/getMessages.php";
+    $metaCharsetUTF8Confirmation = false;
+} elseif (preg_match("#$routeSendMessage#", $uri)) {
+    $page = include "view/messenger/sendMessage.php";
     $metaCharsetUTF8Confirmation = false;
 } elseif (preg_match("#$routeMessage#", $uri, $params)) {
     $page = include "view/messenger/messenger.php";

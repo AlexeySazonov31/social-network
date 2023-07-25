@@ -1,7 +1,6 @@
 <?php 
 if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
-    $_SESSION["flash"][] = ["status" => false, "text" => "First you need to log in!"];
-    header("Location: /login");
+    header("HTTP/1.0 401 First you need to log in");
     die();
 }
 
@@ -10,7 +9,7 @@ $user_own = mysqli_fetch_assoc(mysqli_query($link, "SELECT * FROM users WHERE lo
 $id_user_own = $user_own["id"];
 
 if( empty($_POST["confirm"]) or empty($_POST["idUserMessage"]) ){
-    header("Location: /error");
+    header("HTTP/1.0 404 Error data upload");
     die();
 } else {
     $idUserMessage = $_POST["idUserMessage"];
@@ -28,7 +27,7 @@ if( empty($_POST["confirm"]) or empty($_POST["idUserMessage"]) ){
     for($messages = []; $ms = mysqli_fetch_assoc($resMessages); $messages[] = $ms);
 
     if( empty($userMessage) or empty($messages) ){
-        header("Location: /errorr");
+        header("HTTP/1.0 404 Error data upload");
         die();
     }
 
@@ -44,6 +43,5 @@ if( empty($_POST["confirm"]) or empty($_POST["idUserMessage"]) ){
     }
     
 }
-
 echo json_encode($content);
 ?>

@@ -23,14 +23,14 @@ if( $loginUserMessage === $login_user_own ){
     die();
 }
 
-if(empty($_POST["submit"])){
-} elseif ( !empty($_POST["mess"]) ){
-    $message = $_POST["mess"];
-    $queryInsertMessage = "INSERT into messages set from_user_id='$id_user_own', to_user_id='$idUserMessage', text='$message'";
-    mysqli_query($link, $queryInsertMessage) or die(mysqli_error($link));
-    header("Refresh:0");
-    die();
-}
+// if(empty($_POST["submit"])){
+// } elseif ( !empty($_POST["mess"]) ){
+//     $message = $_POST["mess"];
+//     $queryInsertMessage = "INSERT into messages set from_user_id='$id_user_own', to_user_id='$idUserMessage', text='$message'";
+//     mysqli_query($link, $queryInsertMessage) or die(mysqli_error($link));
+//     header("Refresh:0");
+//     die();
+// }
 
 $content = "";
 ob_start();
