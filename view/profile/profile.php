@@ -1,7 +1,7 @@
 <style>
     .infoProfile {
         position: sticky;
-        top: 80px;
+        top: 30px;
         height: fit-content;
     }
 
@@ -54,17 +54,17 @@ $id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHE
 $own = $params["login"] === $_SESSION["login"] ? true : false;
 
 
-$content = '<div class="d-flex profilePrimContainer"><div class="infoProfile" style="width: 33.3%;">';
+$content = '<div class="d-flex profilePrimContainer"><div class="infoProfile px-3" style="width: 33.3%;">';
 
 if ($data["avatar_name"]) {
-    $content .= '<img class="mb-5 avatar" src="../../img/avatars/' . $data["avatar_name"] . '" alt="profile icon" />';
+    $content .= '<img class="mb-5 avatar" src="../../img/avatars/' . $data["avatar_name"] . '" alt="profile icon" width="500" height="500" />';
 } else {
-    $content .= '<img class="mb-5 avatar" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="profile icon" />';
+    $content .= '<img class="mb-5 avatar" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="profile icon" width="500" height="500" />';
 }
 
 foreach ($data as $key => $value) {
     if ($value and $key !== "avatar_name") {
-        $content .= "<h6 class='mt-4 fw-normal'><b>" . ucfirst($key) . ":</b> $value<h6>";
+        $content .= "<h6 class='mt-4 mx-3 fw-normal'><b>" . ucfirst($key) . ":</b> $value<h6>";
     }
 }
 $queryCountFriends = "SELECT count(*) as count 
@@ -75,7 +75,7 @@ or
 user_id_2='$id_user_own'";
 $resCountFriends = mysqli_query($link, $queryCountFriends) or die(mysqli_error($link));
 $countFriends = mysqli_fetch_assoc($resCountFriends);
-$content .= "<h6 class='mt-4 fw-normal'><b>Friends: </b>$countFriends[count]<h6>";
+$content .= "<h6 class='mt-4 fw-normal mx-3'><b>Friends: </b>$countFriends[count]<h6>";
 
 if (!$own) {
     $querySearchFriendShip = "SELECT * 
@@ -113,7 +113,7 @@ if ($own) {
     $content .= $buttonsOwn;
 }
 
-$content .= "</div><div class='postsProfile' style='width: 66.7%;'>";
+$content .= "</div><div class='postsProfile px-3' style='width: 66.7%;'>";
 
 if (empty($_POST["submit"])) {
 } elseif (empty($_POST["content-post"])) {

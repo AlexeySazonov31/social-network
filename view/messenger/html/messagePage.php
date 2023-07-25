@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body d-flex flex-column justify-content-end" id="messages-body">
+    <div class="card-body d-flex flex-column" id="messages-body">
         <!-- messages place -->
     </div>
     <div class="card-footer">
