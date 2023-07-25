@@ -22,7 +22,7 @@
         z-index: 20;
 
         animation: alert 0.2s forwards;
-        transform: translateX(-500%);
+        /* transform: translateY(0%); */
         opacity: 1;
     }
 
@@ -56,7 +56,7 @@
         }
 
         100% {
-            transform: translateY(+50%);
+            transform: translateY(-10%);
             opacity: 0;
             display: none;
             visibility: hidden;

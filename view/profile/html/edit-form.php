@@ -23,20 +23,26 @@
         <input class="form-control" type="email" name="email" placeholder="email" value="<?= $data["email"] ?>" required />
         <div class="form-text">Please enter your email to update.</div>
     </div>
-    <input class="btn btn-warning" type="submit" name="submit" value="Update Account Data" />
+    <!-- description -->
+    <div class="mb-3">
+        <label for="formControlDescription" class="form-label">Description</label>
+        <textarea class="form-control" id="formControlDescription" name="description" placeholder="who are you?" maxlength="150"  rows="2"><?= $data["description"] ?? "" ?></textarea>
+        <div class="form-text">Please enter description about yourself.</div>
+    </div>
 
+    <input class="btn btn-warning" type="submit" name="submit" value="Update Account Data" />
 </form>
 
 <script>
-  var loadFile = function(event) {
-    var output = document.getElementById('avatar');
-    if( event.target.files[0] ){
-        output.src = URL.createObjectURL(event.target.files[0]);
-    } else {
-        output.src = "../../../img/avatars/<?= $data["avatar_name"] ?>";
-    }
-    output.onload = function() {
-      URL.revokeObjectURL(output.src)
-    }
-  };
+    var loadFile = function(event) {
+        var output = document.getElementById('avatar');
+        if (event.target.files[0]) {
+            output.src = URL.createObjectURL(event.target.files[0]);
+        } else {
+            output.src = "../../../img/avatars/<?= $data["avatar_name"] ?>";
+        }
+        output.onload = function() {
+            URL.revokeObjectURL(output.src)
+        }
+    };
 </script>

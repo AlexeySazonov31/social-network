@@ -115,9 +115,11 @@
                     form["message"].value = "";
                 } else {
                     console.log(result);
+                    blockCardBody.innerHTML = `Error send-message: ${result}`;
                 }
             } catch (error) {
                 console.error(`Error send-message: ${error.message}`);
+                blockCardBody.innerHTML = `Error send-message: ${error.message}`;
             }
         }
 

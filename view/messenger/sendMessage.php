@@ -21,6 +21,21 @@ $message = $_POST["message"];
 $login_user_own = $_SESSION["login"];
 $id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user_own'")))["id"];
 
+// check friendship status - true
+$queryFriendShipStatus = "SELECT status 
+from friends 
+WHERE 
+(user_id_1='$id_user_own' and user_id_2='$idUserMessage') 
+or
+(user_id_2='$id_user_own' and user_id_1='$idUserMessage')";
+$resFriendship = mysqli_query($link, $queryFriendShipStatus) or die(mysqli_error($link));
+$friendship = mysqli_fetch_assoc($resFriendship);
+if( empty($friendship) or !$friendship["status"] ){
+    header("HTTP/1.0 404 not friend");
+    echo json_encode("not friend");
+    die();
+}
+
 if ($loginUserMessage === $login_user_own) {
     header("HTTP/1.0 404 Messenger with yourself is impossible");
     die();

@@ -1,5 +1,5 @@
-<div class="mt-5 d-flex flex-column mx-3">
-    <a class="link link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/profile/edit">Edit Account Data</a>
-    <a class="link link-underline link-underline-opacity-0 link-underline-opacity-75-hover my-2" href="/profile/change-pass">Change Password</a>
-    <a class="link-danger link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/profile/delete">Delete Account</a>
+<div class="mt-4 d-flex flex-column mx-2">
+    <a class="btn btn-outline-warning" href="/profile/edit">Edit Account Data</a>
+    <a class="btn btn-outline-warning my-1" href="/profile/change-pass">Change Password</a>
+    <a class="btn btn-outline-danger" href="/profile/delete">Delete Account</a>
 </div>

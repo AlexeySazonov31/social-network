@@ -13,6 +13,7 @@ if (!empty($_POST["submit"])) {
     $name = $_POST["name"];
     $surname = $_POST["surname"];
     $email = $_POST["email"];
+    $description = $_POST["description"];
 
     if (!empty($_FILES["avatar"]["name"])) {
         $targetDir = "img/avatars/";
@@ -26,10 +27,10 @@ if (!empty($_POST["submit"])) {
         } elseif (!move_uploaded_file($_FILES["avatar"]["tmp_name"], $targetFilePath)) {
             $_SESSION["flash"][] = ["status" => false, "text" => "Sorry, there was an error uploading your file."];
         } else {
-            $queryUpdate = "UPDATE users SET name='$name', surname='$surname', email='$email', avatar_name='$fileName' WHERE login='$login'";
+            $queryUpdate = "UPDATE users SET name='$name', surname='$surname', email='$email', avatar_name='$fileName', description='$description' WHERE login='$login'";
         }
     } else {
-        $queryUpdate = "UPDATE users SET name='$name', surname='$surname', email='$email' WHERE login='$login'";
+        $queryUpdate = "UPDATE users SET name='$name', surname='$surname', email='$email', description='$description' WHERE login='$login'";
     }
     mysqli_query($link, $queryUpdate) or die($link);
     $_SESSION["flash"][] = ["status" => true, "text" => "You data successful updated!"];

@@ -35,7 +35,7 @@ if (empty($_SESSION["auth"]) or empty($_SESSION["login"])) {
 
 $loginProfileView = $params["login"];
 
-$query = "SELECT name, surname, login, email, avatar_name FROM users WHERE login='$loginProfileView'";
+$query = "SELECT name, surname, login, email, avatar_name, description FROM users WHERE login='$loginProfileView'";
 $res = mysqli_query($link, $query) or die(mysqli_error($link));
 $data = mysqli_fetch_assoc($res);
 
@@ -53,20 +53,6 @@ $login_user_own = $_SESSION["login"];
 $id_user_own = (mysqli_fetch_assoc(mysqli_query($link, "SELECT id FROM users WHERE login='$login_user_own'")))["id"];
 $own = $params["login"] === $_SESSION["login"] ? true : false;
 
-
-$content = '<div class="d-flex profilePrimContainer"><div class="infoProfile px-3" style="width: 33.3%;">';
-
-if ($data["avatar_name"]) {
-    $content .= '<img class="mb-5 avatar" src="../../img/avatars/' . $data["avatar_name"] . '" alt="profile icon" width="500" height="500" />';
-} else {
-    $content .= '<img class="mb-5 avatar" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="profile icon" width="500" height="500" />';
-}
-
-foreach ($data as $key => $value) {
-    if ($value and $key !== "avatar_name") {
-        $content .= "<h6 class='mt-4 mx-3 fw-normal'><b>" . ucfirst($key) . ":</b> $value<h6>";
-    }
-}
 $queryCountFriends = "SELECT count(*) as count 
 from friends 
 where
@@ -75,7 +61,6 @@ or
 user_id_2='$id_user_own'";
 $resCountFriends = mysqli_query($link, $queryCountFriends) or die(mysqli_error($link));
 $countFriends = mysqli_fetch_assoc($resCountFriends);
-$content .= "<h6 class='mt-4 fw-normal mx-3'><b>Friends: </b>$countFriends[count]<h6>";
 
 if (!$own) {
     $querySearchFriendShip = "SELECT * 
@@ -86,34 +71,7 @@ if (!$own) {
     (user_id_2='$id_user_own' and user_id_1='$idProfileView')";
     $resFriendship = mysqli_query($link, $querySearchFriendShip) or die(mysqli_error($link));
     $friendship = mysqli_fetch_assoc($resFriendship);
-
-    $content .= "<br>";
-    if (empty($friendship)) {
-        $content .= "<a href='/friends/add/$idProfileView'>ADD FRIEND</a>";
-    } elseif ($friendship["status"]) {
-        $content .= "<p class='text-success'>your friend</p>";
-        // message
-        $content .= "<a href='/messenger/$loginProfileView' class='text-primary'>messenger</a><br><br>";
-        // -------
-        $content .= "<a href='/friends/delete/$idProfileView' class='text-danger'>delete friend</a>";
-    } elseif ($friendship["user_id_1"] === $id_user_own) {
-        $content .= "<p class='text-success'>!friendship requested!</p><br>";
-        $content .= "<a href='/friends/delete/$idProfileView' class='text-danger'>delete request</a>";
-    } else {
-        $content .= "<a href='/friends/confirm/$idProfileView' class='text-success'>confirm friendship</a><br><br>";
-        $content .= "<a href='/friends/delete/$idProfileView' class='text-danger'>refuse</a>";
-    }
 }
-
-
-if ($own) {
-    ob_start();
-    include "html/buttons-edit-pass-delete.php";
-    $buttonsOwn = ob_get_clean();
-    $content .= $buttonsOwn;
-}
-
-$content .= "</div><div class='postsProfile px-3' style='width: 66.7%;'>";
 
 if (empty($_POST["submit"])) {
 } elseif (empty($_POST["content-post"])) {
@@ -155,25 +113,17 @@ if (empty($_POST["submit"])) {
 ob_start();
 include "html/create-post-form.php";
 $createPostForm = ob_get_clean();
-$content .= $createPostForm;
 
 // posts list
 
 $queryGetPosts = "SELECT posts.* FROM posts LEFT JOIN users ON posts.user_id=users.id WHERE users.login='$loginProfileView' ORDER BY id DESC";
 $resPosts = mysqli_query($link, $queryGetPosts) or die(mysqli_error($link));
 for ($posts = []; $post = mysqli_fetch_assoc($resPosts); $posts[] = $post);
-if (!empty($posts)) {
-    $amountPost = count($posts);
-    $content .= "<h3>$amountPost Posts</h3>";
-    foreach ($posts as $post) {
-        ob_start();
-        include "html/post.php";
-        $post = ob_get_clean();
-        $content .= $post;
-    }
-}
 
-$content .= "</div>";
+ob_start();
+include "html/htmlProfile.php";
+$content = ob_get_clean();
+
 
 return [
     "contentTitle" => "Profile",
