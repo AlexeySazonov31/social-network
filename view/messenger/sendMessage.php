@@ -32,6 +32,8 @@ $resFriendship = mysqli_query($link, $queryFriendShipStatus) or die(mysqli_error
 $friendship = mysqli_fetch_assoc($resFriendship);
 if( empty($friendship) or !$friendship["status"] ){
     header("HTTP/1.0 404 not friend");
+    
+    header('Content-Type: application/json');
     echo json_encode("not friend");
     die();
 }
@@ -45,4 +47,5 @@ if ($loginUserMessage === $login_user_own) {
 $queryInsertMessage = "INSERT into messages set from_user_id='$id_user_own', to_user_id='$idUserMessage', text='$message'";
 mysqli_query($link, $queryInsertMessage) or die(mysqli_error($link));
 
+header('Content-Type: application/json');
 echo json_encode( "success" );

@@ -43,5 +43,6 @@ if( empty($_POST["confirm"]) or empty($_POST["idUserMessage"]) ){
     }
     
 }
+header('Content-Type: application/json');
 echo json_encode($content);
 ?>
